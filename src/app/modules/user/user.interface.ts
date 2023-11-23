@@ -7,6 +7,11 @@ export type Address = {
   city: string;
   country: string;
 };
+export type Orders = {
+  productName: string;
+  price: number;
+  quantity: string;
+};
 
 export type User = {
   userId: number;
@@ -15,7 +20,8 @@ export type User = {
   fullName: UserName;
   age: number;
   email: string;
-  isActive: boolean;
+  isActive: ['true', 'false'];
   hobbies: string[];
   address: Address;
+  orders: Orders[];
 };

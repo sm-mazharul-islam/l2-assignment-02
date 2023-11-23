@@ -4,11 +4,12 @@ import { Address, Orders, User, UserName } from './user.interface';
 const fullNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
-    required: true,
+    required: [true, 'First Name is Required'],
+    trim: true,
   },
   lastName: {
     type: String,
-    required: true,
+    required: [true, 'Last Name is Required'],
   },
 });
 
@@ -25,15 +26,21 @@ const ordersSchema = new Schema<Orders>({
 });
 
 const userSchema = new Schema<User>({
-  userId: { type: Number, required: true },
-  userName: { type: String, requied: true },
+  userId: { type: Number, required: true, unique: true },
+  userName: { type: String, required: true },
   password: { type: String, required: true },
-  fullName: fullNameSchema,
+  fullName: {
+    type: fullNameSchema,
+    required: true,
+  },
   age: { type: Number, required: true },
-  email: { type: String, required: true },
-  isActive: ['true', 'false'],
+  email: { type: String, required: true, unique: true },
+  isActive: { type: Boolean, required: true },
   hobbies: { type: [String], required: true },
-  address: addressSchema,
+  address: {
+    type: addressSchema,
+    required: true,
+  },
   orders: [ordersSchema],
 });
 

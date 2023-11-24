@@ -13,11 +13,12 @@ export type TOrders = {
   productName: string;
   price: number;
   quantity: string;
+  // _id: false; ---> _id hide korte
 };
 
 export type TUser = {
   userId: number;
-  userName: string;
+  username: string;
   password: string;
   fullName: TUserName;
   age: number;
@@ -25,7 +26,7 @@ export type TUser = {
   isActive: boolean;
   hobbies: string[];
   address: TAddress;
-  orders: TOrders[];
+  orders?: TOrders[];
 };
 
 // creating static

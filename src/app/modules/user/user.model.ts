@@ -1,7 +1,15 @@
 import { Schema, model } from 'mongoose';
-import { Address, Orders, User, UserName } from './user.interface';
+import {
+  TAddress,
+  TOrders,
+  TUser,
+  UserModel,
+  TUserName,
+} from './user.interface';
+import bcrypt from 'bcrypt';
+import config from '../../config';
 
-const fullNameSchema = new Schema<UserName>({
+const fullNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, 'First Name is Required'],
@@ -13,19 +21,19 @@ const fullNameSchema = new Schema<UserName>({
   },
 });
 
-const addressSchema = new Schema<Address>({
+const addressSchema = new Schema<TAddress>({
   street: { type: String, required: true },
   city: { type: String, required: true },
   country: { type: String, required: true },
 });
 
-const ordersSchema = new Schema<Orders>({
+const ordersSchema = new Schema<TOrders>({
   productName: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: String, required: true },
 });
 
-const userSchema = new Schema<User>({
+const userSchema = new Schema<TUser, UserModel>({
   userId: { type: Number, required: true, unique: true },
   userName: { type: String, required: true },
   password: { type: String, required: true },
@@ -44,4 +52,28 @@ const userSchema = new Schema<User>({
   orders: [ordersSchema],
 });
 
-export const UserModel = model<User>('User', userSchema);
+/* pre save middleware / hook  */
+userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
+});
+
+/* post save middleware/hook */
+
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+// creating  a custom static method
+userSchema.statics.isUserExists = async function (userId: number) {
+  const existingUser = await User.findOne({ userId });
+  return existingUser;
+};
+
+export const User = model<TUser, UserModel>('User', userSchema);

@@ -23,7 +23,7 @@ const updateUser = async (
   userId: number | string,
   userData: TUser,
 ): Promise<TUser | null> => {
-  const result = await User.findByIdAndUpdate(userId, userData, {
+  const result = await User.findOneAndUpdate({ userId }, userData, {
     new: true,
     runValidators: true,
   });

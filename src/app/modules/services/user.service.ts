@@ -20,7 +20,7 @@ const getSingleUserFromDB = async (userId: number) => {
 };
 
 const updateUser = async (
-  userId: number,
+  userId: number | string,
   userData: TUser,
 ): Promise<TUser | null> => {
   const result = await User.findByIdAndUpdate(userId, userData, {

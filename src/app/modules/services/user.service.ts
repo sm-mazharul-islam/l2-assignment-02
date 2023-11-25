@@ -23,12 +23,16 @@ const updateUser = async (
   userId: number,
   userData: TUser,
 ): Promise<TUser | null> => {
-  const result = await User.findByIdAndUpdate(userId, userData, { new: true });
+  const result = await User.findByIdAndUpdate(userId, userData, {
+    new: true,
+    runValidators: true,
+  });
   return result;
 };
 
 const deleteUser = async (userId: number): Promise<TUser | null> => {
   const result = await User.findOneAndDelete({ userId });
+  console.log(result, 'deleted successfully');
   return result;
 };
 

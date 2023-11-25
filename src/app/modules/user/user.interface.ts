@@ -13,7 +13,6 @@ export type TOrders = {
   productName: string;
   price: number;
   quantity: string;
-  // _id: false; ---> _id hide korte
 };
 
 export type TUser = {
@@ -35,7 +34,3 @@ export interface UserModel extends Model<TUser> {
   // eslint-disable-next-line no-unused-vars
   isUserExists(userId: number): Promise<TUser | null>;
 }
-
-// export interface UserModel extends Model<TUser> {
-//   isUserExists(userId: number): Promise<TUser | null>;
-// }

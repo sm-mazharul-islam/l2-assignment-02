@@ -85,7 +85,7 @@ userSchema.set('toJSON', {
   transform: function (doc, ret) {
     delete ret.__v;
     delete ret.password;
-    delete ret.orders;
+    delete ret._id;
   },
 });
 /* --password field-- */

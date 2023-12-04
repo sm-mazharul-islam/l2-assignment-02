@@ -148,10 +148,10 @@ const getAllOrderFromUser = async (req: Request, res: Response) => {
 
 const orderUpdate = async (req: Request, res: Response) => {
   try {
-    const orderData = req.body.orders;
+    const orders = req.body;
     const { userId } = req.params;
 
-    const result = await UserServices.updateOrder(Number(userId), orderData);
+    const result = await UserServices.updateOrder(Number(userId), orders);
     if (result) {
       res.status(200).json({
         status: true,

@@ -42,10 +42,10 @@ const getSingleOrder = async (userId: number) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const updateOrder = async (userId: number, orderData: any[]) => {
+const updateOrder = async (userId: number, orders: any) => {
   const result = await User.findOneAndUpdate(
     { userId },
-    { $addToSet: { orders: orderData } },
+    { $addToSet: { orders: orders } },
     {
       new: true,
     },

@@ -22,7 +22,7 @@ const fullNameSchema = new Schema<TUserName>({
 });
 
 const addressSchema = new Schema<TAddress>({
-  street: { type: String, required: true },
+  street: { type: String },
   city: { type: String, required: true },
   country: { type: String, required: true },
 });
@@ -30,7 +30,7 @@ const addressSchema = new Schema<TAddress>({
 const ordersSchema = new Schema<TOrders>({
   productName: { type: String, required: true },
   price: { type: Number, required: true },
-  quantity: { type: String, required: true },
+  quantity: { type: Number, required: true },
 });
 
 const userSchema = new Schema<TUser, UserModel>({
@@ -67,6 +67,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.post('save', function (doc, next) {
   doc.password = '';
+
   next();
 });
 
@@ -75,5 +76,18 @@ userSchema.statics.isUserExists = async function (userId: number) {
   const existingUser = await User.findOne({ userId });
   return existingUser;
 };
+
+userSchema.virtual('id').get(function () {
+  return this._id;
+});
+userSchema.set('toJSON', {
+  virtuals: true,
+  transform: function (doc, ret) {
+    delete ret.__v;
+    delete ret.password;
+    delete ret.orders;
+  },
+});
+/* --password field-- */
 
 export const User = model<TUser, UserModel>('User', userSchema);

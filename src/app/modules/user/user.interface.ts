@@ -12,7 +12,7 @@ export type TAddress = {
 export type TOrders = {
   productName: string;
   price: number;
-  quantity: string;
+  quantity: number;
 };
 
 export type TUser = {
@@ -30,7 +30,7 @@ export type TUser = {
 
 // creating static
 
-export interface UserModel extends Model<TUser> {
+export interface UserModel extends Model<TUser, TOrders> {
   // eslint-disable-next-line no-unused-vars
   isUserExists(userId: number): Promise<TUser | null>;
 }

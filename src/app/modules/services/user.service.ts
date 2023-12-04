@@ -32,7 +32,33 @@ const updateUser = async (
 
 const deleteUser = async (userId: number): Promise<TUser | null> => {
   const result = await User.findOneAndDelete({ userId });
-  console.log(result, 'deleted successfully');
+  // console.log(result, 'deleted successfully');
+  return result;
+};
+
+const getSingleOrder = async (userId: number) => {
+  const result = await User.findOne({ userId }, 'orders');
+  return result;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const updateOrder = async (userId: number, orderData: any[]) => {
+  const result = await User.findOneAndUpdate(
+    { userId },
+    { $addToSet: { orders: orderData } },
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
+const calculateTotal = async (userId: number) => {
+  const findOrder = await User.findOne({ userId }, 'orders');
+  const result = findOrder?.orders?.reduce(
+    (allPrice, order) => allPrice + order.price,
+    0,
+  );
   return result;
 };
 
@@ -42,4 +68,7 @@ export const UserServices = {
   getSingleUserFromDB,
   updateUser,
   deleteUser,
+  getSingleOrder,
+  updateOrder,
+  calculateTotal,
 };

@@ -127,16 +127,15 @@ const deleteUser = async (req: Request, res: Response) => {
 };
 
 const getAllOrderFromUser = async (req: Request, res: Response) => {
-  try {
-    const userId = req.params.userId;
-    const result = await UserServices.getSingleOrder(Number(userId));
-
+  const userId = req.params.userId;
+  const result = await UserServices.getSingleOrder(Number(userId));
+  if (result) {
     res.status(200).json({
       success: true,
       message: 'Order fetched successfully',
       data: result,
     });
-  } catch (err: any) {
+  } else {
     res.status(404).json({
       success: false,
       message: 'User not found',

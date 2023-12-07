@@ -34,3 +34,41 @@ export const userValidationSchema = z.object({
 });
 
 export default userValidationSchema;
+
+// const updateUserNameSchema = z.object({
+//   firstName: z.string(),
+//   // .refine((value) => /^[A-Z]/.test(value), {
+//   //   message: 'First Name must start with a capital letter',
+//   // }),
+//   lastName: z.string(),
+// });
+
+// const updatePresentAddressSchema = z.object({
+//   street: z.string(),
+//   city: z.string(),
+//   country: z.string(),
+// });
+
+// const updateOrderSchema = z.object({
+//   productName: z.string(),
+//   price: z.number(),
+//   quantity: z.number(),
+// });
+
+// export const updateUserValidationSchema = z.object({
+//   userId: z.number().optional(),
+//   password: z.string().optional(),
+//   username: z.string().optional(),
+//   fullName: updateUserNameSchema.optional(),
+//   age: z.number().optional(),
+//   email: z.string().email().optional(),
+//   isActive: z.boolean().optional(),
+//   hobbies: z.array(string()).optional(),
+//   address: updatePresentAddressSchema.optional(),
+//   orders: z.array(updateOrderSchema).optional(),
+// });
+
+// export const validationUser = {
+//   userValidationSchema,
+//   updateUserValidationSchema,
+// };

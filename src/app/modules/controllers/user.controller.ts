@@ -7,7 +7,7 @@ import userValidationSchema from '../validation/user.validation';
 const createUser = async (req: Request, res: Response) => {
   try {
     // const user = req.body.user;
-    const { user: userData } = req.body;
+    const userData = req.body;
     // data validation using zod
     const zodParseData = userValidationSchema.parse(userData);
     const result = await UserServices.createUserIntoDB(zodParseData);
@@ -21,8 +21,10 @@ const createUser = async (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: err.message || 'something went wrong',
-      error: err,
+      message: 'User Already Exists!',
+      // error: err,
+      // message: err.message || 'something went wrong',
+      // error: err,
     });
   }
 };

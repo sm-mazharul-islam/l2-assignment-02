@@ -22,7 +22,7 @@ const fullNameSchema = new Schema<TUserName>({
 });
 
 const addressSchema = new Schema<TAddress>({
-  street: { type: String },
+  street: { type: String, required: true },
   city: { type: String, required: true },
   country: { type: String, required: true },
 });
@@ -73,7 +73,7 @@ userSchema.post('save', function (doc, next) {
 
 // creating  a custom static method
 userSchema.statics.isUserExists = async function (userId: number) {
-  const existingUser = await User.findOne({ userId });
+  const existingUser = await User.find({ userId });
   return existingUser;
 };
 
@@ -85,7 +85,6 @@ userSchema.set('toJSON', {
   transform: function (doc, ret) {
     delete ret.__v;
     delete ret.password;
-    delete ret._id;
   },
 });
 /* --password field-- */
